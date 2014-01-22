@@ -44,27 +44,33 @@ public class VideoSocket extends WebSocketServlet{
 		return new StreamInboundConnection();
 	}
 	
-	private static class StreamInboundConnection extends StreamInbound {
+	private static class StreamInboundConnection extends MessageInbound {
 		 
         @Override
         protected void onOpen(WsOutbound outbound) {
-            log.info("Conexi�n abierta");
+            log.info("Connection opened");
         }
  
         @Override
         protected void onClose(int status) {
-            log.info("Conexi�n cerrada");
+            log.info("Connection closed");
         }
  
+
 		@Override
-		protected void onBinaryData(InputStream BData) throws IOException {
+		protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
+			log.warn("Binary messages not supported");
+            throw new UnsupportedOperationException("Binary messages not supported");
 			
 		}
 
 		@Override
-		protected void onTextData(Reader TData) throws IOException {
+		protected void onTextMessage(CharBuffer TData) throws IOException {
 			
+			log.debug("Order recieved: {}", TData.toString());
 			
+			this.getWsOutbound().writeTextMessage(CharBuffer.wrap(TData.toString()));
+
 		}
     }
 

@@ -2,17 +2,17 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Autentia - Ejemplo simple con Websockets y Tomcat 7</title>
+    <title>WappZapp Video Player</title>
 </head>
-<body>
-<a href="http://www.autentia.com" target="_blank"></a>
-<h1>EJEMPLO SIMPLE DE WEBSOCKETS CON TOMCAT 7</h1>
 <script type="text/javascript">
 
     var ws = null;
+    var myVideo = null;
 
     function connect() {
-        var URL = 'ws://' + location.host  + '/WappZapp/SimpleWebSocketServlet';
+    	
+        var URL = 'ws://' + location.host  + '/WappZapp/VideoSocket';
+        
         if ('WebSocket' in window) {
             ws = new WebSocket(URL);
         } else if ('MozWebSocket' in window) {
@@ -22,20 +22,27 @@
             return;
         }
         ws.onopen = function () {
-            addMessage('Concectado!');
+        	myVideo = document.getElementById('video');
+            myVideo.play();
+            enableButtons(true);
         };
+        
         ws.onmessage = function (event) {
             var message = event.data;
-            alert(event.data);
-            addMessage(message);
-        };
+			if(message == "0"){
+				myVideo.pause();
+				enableButtons(false);
+			}	
+			else{
+				myVideo.play();
+				enableButtons(true);
+			}
 
-        ws.onclose = function () {
-            addMessage('Desconectado!');
         };
 
         ws.onerror = function (event) {
-            addMessage('Se produjo un error!');
+           disconnect();
+           connect();
         };
     }
 
@@ -46,30 +53,27 @@
         }
     }
 
-    function sendMessage(message) {
+    function sendOrder(message) {
         if (ws != null) {
             ws.send(message);
         }
     }
-
-    function addMessage(message) {
-        var messages = document.getElementById('messages').value;
-        messages += (message + '\n');
-        document.getElementById('messages').value = messages;
+    
+    function enableButtons(trigger){
+    	document.getElementById("play").disabled = trigger;
+    	document.getElementById("pause").disabled = !trigger; 
     }
 
 </script>
-
-<label for="name">Nombre:</label> <input type="text" id="name"/>
+<body onload="connect();">
+<a href="http://www.autentia.com" target="_blank"></a>
+<h1>WappZapp Video player</h1>
+<video width="320" height="240" id ="video">
+   <source src="wappZapp.mp4" type="video/mp4">
+ </video>
 <br/><br/>
-<button onclick="connect()">Conectar</button>
-<button onclick="disconnect()">Desconectar</button>
-<button onclick="sendMessage(document.getElementById('name').value)">Enviar mensaje</button>
-<br/><br/>
-<textarea rows="5" cols="50" id="messages"></textarea>
-<div style='float:left'>
-<p>Marco video player</p>
-<video width="320" height="240" controls id='video_player'></video></div>
+<button onclick="sendOrder('1')" id="play">Play</button>
+<button onclick="sendOrder('0')" id="pause">Pause</button>
 
 </body>
 </html>
