@@ -1,0 +1,29 @@
+<!DOCTYPE web-app PUBLIC
+ "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+ "http://java.sun.com/dtd/web-app_2_3.dtd" >
+
+<web-app>
+  <display-name>Archetype Created Web Application</display-name>
+  <servlet>
+  	<servlet-name>SimpleWebSocketServlet</servlet-name>
+  	<display-name>SimpleWebSocketServlet</display-name>
+  	<description></description>
+  	<servlet-class>es.mgj.wappzapp.websockets.SimpleWebSocketServlet</servlet-class>
+  </servlet>
+  <servlet>
+  	<servlet-name>VideoSocket</servlet-name>
+  	<display-name>VideoSocket</display-name>
+  	<description></description>
+  	<servlet-class>es.mgj.wappzapp.websockets.VideoSocket</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+  	<servlet-name>SimpleWebSocketServlet</servlet-name>
+  	<url-pattern>/SimpleWebSocketServlet</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+  	<servlet-name>VideoSocket</servlet-name>
+  	<url-pattern>/VideoSocket</url-pattern>
+  </servlet-mapping>
+  
+</web-app>
