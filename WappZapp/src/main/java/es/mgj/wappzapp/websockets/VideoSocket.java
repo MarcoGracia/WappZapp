@@ -24,7 +24,7 @@ import org.slf4j.LoggerFactory;
 public class VideoSocket extends WebSocketServlet{
 	
 	private static final long serialVersionUID = 1L;
-    private static final Logger log = LoggerFactory.getLogger(SimpleWebSocketServlet.class);   
+    private static final Logger log = LoggerFactory.getLogger(StreamInboundConnection.class);   
     
     /**
      * @see WebSocketServlet#WebSocketServlet()
