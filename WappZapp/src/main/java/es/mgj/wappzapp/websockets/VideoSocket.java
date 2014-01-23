@@ -60,6 +60,7 @@ public class VideoSocket extends WebSocketServlet{
 		@Override
 		protected void onBinaryMessage(ByteBuffer arg0) throws IOException {
 			log.warn("Binary messages not supported");
+			
             throw new UnsupportedOperationException("Binary messages not supported");
 			
 		}
